@@ -53,13 +53,13 @@ The payload also rewrote some registry entries and instructed the victim machine
 
 <figure><img src=".gitbook/assets/image (34).png" alt=""><figcaption><p>Key note: Trigger=UserLogon</p></figcaption></figure>
 
-Following the next instance that winlogon.exe was run, we can see a PowerShell process that ran the command line as seen below and downloaded a binary "first.exe"
+Following the next instance that winlogon.exe was run, we can see a PowerShell process that ran the command line as seen below and downloaded a binary \<first.exe>
 
 <figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption><p>first.exe 's first interaction with the victim machine</p></figcaption></figure>
 
-<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>7-Zip // CRC</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1).png" alt=""><figcaption><p>7-Zip // CRC</p></figcaption></figure>
 
-After the malicious binary was run, we can see several outbound packets sent to a C2 server "resolvecyber.xyz" using port 80.
+After the malicious binary was run, we can see several outbound packets sent to a C2 server \<resolvecyber\[.]xyz> using port 80.
 
 <figure><img src=".gitbook/assets/image (24).png" alt=""><figcaption><p>Brim (brimdata.io) was used to chronologically follow the traffic flow.</p></figcaption></figure>
 
@@ -79,7 +79,7 @@ Focusing on the malicious domain and adding the user\_agent search parameter, we
 
 Using CAPA, we can also determine that the binary was compiled with Nim, and verified that the data was encoded using Base64.&#x20;
 
-<figure><img src=".gitbook/assets/image (40).png" alt=""><figcaption><p>Using CAPA to determine the compiler of the binary &#x26; data encryption</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (40) (1).png" alt=""><figcaption><p>Using CAPA to determine the compiler of the binary &#x26; data encryption</p></figcaption></figure>
 
 ## Discovery \<Internal Reconnaisance>
 
@@ -93,9 +93,9 @@ It takes a lot of time to decode all these instructions one by one, so we can ju
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption><p>Base64 encoded information sent to C2 server (Brim sorts canonically from bottom to top, so these entries must be read in reverse)</p></figcaption></figure>
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Decoded information sent to C2 server; note that we view this from bottom to top</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (40).png" alt=""><figcaption><p>Decoded information sent to C2 server; note that we view this from bottom to top</p></figcaption></figure>
 
-Following the sequence of commands, we see that the attacker indexed the victim machine's network status and probed **listening ports**. Afterwards, they downloaded a certain \<ch.exe>, which we can infer is a payload for setting up a reverse shell in one of the listed ports.&#x20;
+Following the sequence of commands, we see that the attacker indexed the victim machine's network status and probed **listening ports**. Afterwards, they downloaded a certain \<ch.exe>, which we can infer is a payload for tunneling a reverse socks proxy in one of the listed ports.&#x20;
 
 <figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption><p>That's a lot of open ports!</p></figcaption></figure>
 
@@ -103,7 +103,7 @@ Following the sequence of commands, we see that the attacker indexed the victim 
 
 ## Privilege Escalation \<Exploiting Privileges>
 
-Running this payload instantly gave the access rights NT Authority/System to the attacker.&#x20;
+\<ch.exe> was successfully dropped in the victim machine as communicated through the C2 server.
 
 <figure><img src=".gitbook/assets/image (29).png" alt=""><figcaption><p>I need to learn from this guy in preparation for OSCP lol</p></figcaption></figure>
 
@@ -133,11 +133,17 @@ Eventually, the actor downloaded one last binary \<final.exe> to establish anoth
 
 ## Fully Owned Machine
 
+Combining the two binaries, \<spf.exe> and \<final.exe>, the attacker managed to reach NT Authority/System privileges after payload execution.
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Setting up for machine ownage</p></figcaption></figure>
+
+<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>whoami? I am owned</p></figcaption></figure>
+
 Finally, the threat actor added 2 users, "shion" and "shuna" to the local administrator's group and regular users group, respectively.
 
 <figure><img src=".gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
 
-And as the finishing blow, the actor leveraged the Service Control Manager Configuration Tool to establish persistent administrative access by auto-running \<final.exe> everytime the user logs in.
+And as the finishing blow, the actor leveraged the Service Control Manager Configuration Tool to establish persistent administrative access by auto-running \<final.exe> everytime the machine is booted.
 
 <figure><img src=".gitbook/assets/image (28).png" alt=""><figcaption><p>Game over.</p></figcaption></figure>
 
