@@ -6,7 +6,7 @@ description: https://tryhackme.com/room/tempestincident
 
 ## Challenge Scenario&#x20;
 
-You are one of the Incident Responders that will focus on handling and analyzing th**e captured artefacts** of a compromised machine.\
+You are one of the Incident Responders that will focus on handling and analyzing the **captured artefacts** of a compromised machine.\
 Captured Artifacts include:\
 1\.  capture.pcapng\
 2\. sysmon\_logs.evtx\
