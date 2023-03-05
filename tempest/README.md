@@ -4,7 +4,7 @@ description: https://tryhackme.com/room/tempestincident
 
 # Tempest Walkthrough
 
-hallenge Scenario&#x20;
+## Challenge Scenario&#x20;
 
 You are one of the Incident Responders that will focus on handling and analyzing th**e captured artefacts** of a compromised machine.\
 Captured Artifacts include:\
