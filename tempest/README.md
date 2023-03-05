@@ -141,7 +141,7 @@ And as the finishing blow, the actor leveraged the Service Control Manager Confi
 
 <figure><img src=".gitbook/assets/image (28).png" alt=""><figcaption><p>Game over.</p></figcaption></figure>
 
-## Thank you to ar33zy for creating this room.&#x20;
+**Thank you to ar33zy for creating this room.**&#x20;
 
 #### _It was a great exercise, especially for beginners in infosec such as me, as the room tackled every step of Lockheed Martin's Cyber kill-chain; definitely a must-try room for everyone._
 
