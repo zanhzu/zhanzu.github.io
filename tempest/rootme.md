@@ -44,8 +44,6 @@ by OJ Reeves (@TheColonial) &#x26; Christian Mehlmauer (@firefart)
 
 Accessing the /panel directory of the machine's webserver leads us to a file upload page.
 
-<figure><img src="broken-reference" alt=""><figcaption><p>What a neat feature!</p></figcaption></figure>
-
 As the devious person I am, I tried to upload pentestmonkey's php reverse shell script to listen on port 4444 but this server has an upload filtering for .php files.&#x20;
 
 I managed to bypass this filter by renaming my reverse shell file to a .php5 extension. After the upload was a success, the page even had a button to directly run my recently uploaded script!
