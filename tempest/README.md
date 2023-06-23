@@ -33,7 +33,7 @@ We can infer from the sysmon logs that there were multiple DNS queries from chro
 
 Further inspection shows that WINWORD.EXE was used to open the malicious document.
 
-<figure><img src=".gitbook/assets/image (26) (1).png" alt=""><figcaption><p>With ProcessID 496</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (26).png" alt=""><figcaption><p>With ProcessID 496</p></figcaption></figure>
 
 We can also see a suspicious entry from the queries resolved to a certain phishteam.xyz&#x20;
 

@@ -41,7 +41,7 @@ I would've expected a word document or excel file contained within the zip file,
 
 <figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>The &#x3C;.lnk> file will call powershell accompanied by some encoded commands. This is incomplete so... </p></figcaption></figure>
 
-<figure><img src=".gitbook/assets/image (26).png" alt=""><figcaption><p>...using pylnk to parse this shortcut, we get to see the full command line argument.</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption><p>...using pylnk to parse this shortcut, we get to see the full command line argument.</p></figcaption></figure>
 
 ## Endpoint Security (Tools & Artefacts)
 
