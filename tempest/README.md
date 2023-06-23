@@ -41,7 +41,7 @@ We can also see a suspicious entry from the queries resolved to a certain phisht
 
 Afterwards, the maldoc executed the payload contained within. We can see several nested expressions in the payload demonstrating a variety of TTPs used by the threat actor; one in particular is the obfuscation of strings using Base64 encoding.
 
-<figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption><p>The threat actor leveraged msdt.exe to perform RCE, akin to the CVE 2022-30190 vulnerability</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3) (1).png" alt=""><figcaption><p>The threat actor leveraged msdt.exe to perform RCE, akin to the CVE 2022-30190 vulnerability</p></figcaption></figure>
 
 ## Initial Access \<Stage 2 Execution>
 
@@ -91,7 +91,7 @@ After querying the C2 server \<resolvecyber\[.]xyz>, we decode some of the field
 
 It takes a lot of time to decode all these instructions one by one, so we can just export the URI query results to a <.json> or <.csv> file,  and decode the entire list to get a faster explanation of the attack story.
 
-<figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption><p>Base64 encoded information sent to C2 server (Brim sorts canonically from bottom to top, so these entries must be read in reverse)</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (4) (1).png" alt=""><figcaption><p>Base64 encoded information sent to C2 server (Brim sorts canonically from bottom to top, so these entries must be read in reverse)</p></figcaption></figure>
 
 <figure><img src=".gitbook/assets/image (40).png" alt=""><figcaption><p>Decoded information sent to C2 server; note that we view this from bottom to top</p></figcaption></figure>
 
@@ -99,7 +99,7 @@ Following the sequence of commands, we see that the attacker indexed the victim 
 
 <figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption><p>That's a lot of open ports!</p></figcaption></figure>
 
-<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Identified by our trusty friend, Virustotal, as related to &#x3C;chisel.exe></p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Identified by our trusty friend, Virustotal, as related to &#x3C;chisel.exe></p></figcaption></figure>
 
 ## Privilege Escalation \<Exploiting Privileges>
 
@@ -119,7 +119,7 @@ To which afterwards, they enumerated the privileges of the current logged-in use
 
 <figure><img src=".gitbook/assets/image (21).png" alt=""><figcaption><p>As seen in sysmon logs</p></figcaption></figure>
 
-<figure><img src=".gitbook/assets/image (10).png" alt=""><figcaption><p>As returned to the C2 server</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (10) (1).png" alt=""><figcaption><p>As returned to the C2 server</p></figcaption></figure>
 
 The actor then proceeded to download another binary \<spf.exe> which as seen from Virustotal is a variant of the "PrintSpoofer" malware.
 
@@ -135,13 +135,13 @@ Eventually, the actor downloaded one last binary \<final.exe> to establish anoth
 
 Combining the two binaries, \<spf.exe> and \<final.exe>, the attacker managed to reach NT Authority/System privileges after payload execution.
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Setting up for machine ownage</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption><p>Setting up for machine ownage</p></figcaption></figure>
 
-<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>whoami? I am owned</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (2).png" alt=""><figcaption><p>whoami? I am owned</p></figcaption></figure>
 
 Finally, the threat actor added 2 users, "shion" and "shuna" to the local administrator's group and regular users group, respectively.
 
-<figure><img src=".gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (20) (1).png" alt=""><figcaption></figcaption></figure>
 
 And as the finishing blow, the actor leveraged the Service Control Manager Configuration Tool to establish persistent administrative access by auto-running \<final.exe> everytime the machine is booted.
 
