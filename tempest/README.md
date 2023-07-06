@@ -37,7 +37,7 @@ Further inspection shows that WINWORD.EXE was used to open the malicious documen
 
 We can also see a suspicious entry from the queries resolved to a certain phishteam.xyz&#x20;
 
-<figure><img src=".gitbook/assets/image (9).png" alt=""><figcaption><p>phishteam.xyz // 167.71.199.191</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (9) (1).png" alt=""><figcaption><p>phishteam.xyz // 167.71.199.191</p></figcaption></figure>
 
 Afterwards, the maldoc executed the payload contained within. We can see several nested expressions in the payload demonstrating a variety of TTPs used by the threat actor; one in particular is the obfuscation of strings using Base64 encoding.
 
@@ -47,7 +47,7 @@ Afterwards, the maldoc executed the payload contained within. We can see several
 
 The payload then recovered several command lines that will also attempt to retrieve further command line/scripted instructions from the threat actor. After some time, the payload wrote a file **\<update.zip>** on the system
 
-<figure><img src=".gitbook/assets/image (11).png" alt=""><figcaption><p>Scripted Diagnostic Native Host leveraged to download a zip file that contained a .lnk file</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (11) (1).png" alt=""><figcaption><p>Scripted Diagnostic Native Host leveraged to download a zip file that contained a .lnk file</p></figcaption></figure>
 
 The payload also rewrote some registry entries and instructed the victim machine to run some modified rules after the user logs in to the machine.
 
@@ -109,7 +109,7 @@ Following the sequence of commands, we see that the attacker indexed the victim 
 
 The actor then tried to add a user to the machine, but failed a few times because they missed out the "/add" command to their command line.
 
-<figure><img src=".gitbook/assets/image (7).png" alt=""><figcaption><p>We can also see here that they suceeded in changing the password of the Administrator to "ch4ng3dpassword!"</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (7) (1).png" alt=""><figcaption><p>We can also see here that they suceeded in changing the password of the Administrator to "ch4ng3dpassword!"</p></figcaption></figure>
 
 Mirroring this timeline to the sysmon logs, after \<ch.exe> was ran, the actor leveraged a WinRM associated process to authenticate.
 
