@@ -20,7 +20,7 @@ You (we) are tasked to analyse and assess the impact of the compromise.
 
 The room starts with providing us the artefacts that we will need to investigate & analyze. Seen below are the files contained within the artefacts folder,
 
-<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Taking a peek at the email file, we got to list down some key information:</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Taking a peek at the email file, we got to list down some key information:</p></figcaption></figure>
 
 Taking a peek at the email file, we got to list down some key information:
 
@@ -39,9 +39,9 @@ Because we are _good people_, let's give Arthur the benefit of the doubt and che
 
 I would've expected a word document or excel file contained within the zip file, but I got a shortcut (.lnk) file instead. Now we get to see some tomfoolery. Using properties viewer, or lnkparse, we get to see some interesting contents of this shortcut file.
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>The &#x3C;.lnk> file will call powershell accompanied by some encoded commands. This is incomplete so... </p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>The &#x3C;.lnk> file will call powershell accompanied by some encoded commands. This is incomplete so... </p></figcaption></figure>
 
-<figure><img src=".gitbook/assets/image (26).png" alt=""><figcaption><p>...using pylnk to parse this shortcut, we get to see the full command line argument.</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (26) (1).png" alt=""><figcaption><p>...using pylnk to parse this shortcut, we get to see the full command line argument.</p></figcaption></figure>
 
 ## Endpoint Security (Are you sure that's an invoice?)&#x20;
 
@@ -89,11 +89,30 @@ A deeper analysis of this powershell script tells the following:
 * If the $c variable doesn't return the value 'None', the script will proceed to execute the content (iex) stored in the $c variable, while also declaring an error variable $e.
 * The output of the command executed by the $c variable is outputted into a string and put into the $r variable, which is then sent to http://cdn.bpakcaging.xyz:8080/27fe2489, concatenated with an error code (if applicable), and encoded as UTF-8 data.
 
-Put simply, whatever the contents of "/b86459b" will be run in the victim machine, and its output will be sent (POST) to "27fe2489".
+Put simply, whatever the contents of "/b86459b" will be run (GET) in the victim machine, and its output will be sent (POST) to "27fe2489".
 
 <figure><img src=".gitbook/assets/image (9).png" alt=""><figcaption><p>That's a lot of gets and posts!</p></figcaption></figure>
 
-As&#x20;
+&#x20;As we are already aware of the commands that were run on the victim machine via **windows event logs**, we can try to analyze further the output of the commands that were sent to /27fe2489. Using tshark, we retrieved all the contents of all POST requests sent to the C2 server and stored them into a text file \<postdata.txt>.
+
+```
+┌──(kali㉿kali)-[~/Desktop/THM/Boogeyman]
+└─$ tshark -r capture.pcapng -Y 'http.request.full_uri contains "/27fe2489"' -T fields -e  http.file_data > postdata.txt
+```
+
+Because of the length and amount of UTF-8 encoded data within the file, I decided to use Cyberchef to decode the contents, and voila, we seem to have found sensitive data being exfiltrated by the attacker.
+
+<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>Cyber swiss army knife, right?</p></figcaption></figure>
+
+We expect the decoded contents of \<postdata.txt> to be the output of the powershell commands as seen in the _**Endpoint Security**_ section of this writeup.&#x20;
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>This confirms the fact that some "protected_data" was exfiltrated by the attacker. </p></figcaption></figure>
+
+Because the file that the attacker retrieved was "protected", it will have some sort of encryption-protection. To get around this, the attacker snooped around the victim machine and found sensitive data, that seems to be the password of the exfiltrated file, stored in their sticky notes.
+
+<figure><img src=".gitbook/assets/image (6).png" alt=""><figcaption><p>Highlighted in green is the password of protected_data.kdbx</p></figcaption></figure>
+
+To confirm this, we can retrieve the file that was exfiltrated using nslookup/DNS protocol with tshark as shown below.
 
 ```
 ┌──(kali㉿kali)-[~/Desktop/THM/Boogeyman]
@@ -190,9 +209,14 @@ B921E7F311F44F570D85FD09FFAB3DF255B350D4110B9F0FE5
 
 ```
 
+Since we know the contents of this file are encoded in hex, we can rebuild the file using Cyberchef, and re-save it as the same "protected\_data.kdbx" file.&#x20;
 
+<figure><img src=".gitbook/assets/image (26).png" alt=""><figcaption><p>We're getting close!</p></figcaption></figure>
 
+As an additional note, files that end with the **.kdbx extension** are files that are created by the open-source password manager software, KeePass, thus we also downloaded the software to validate our investigation as is. To top it all off.....
 
+<figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption><p>Inputting what seems to be the password we found earlier....</p></figcaption></figure>
 
+<figure><img src=".gitbook/assets/image (20).png" alt=""><figcaption><p>Gives us the view of the attacker.</p></figcaption></figure>
 
-
+There's that then.

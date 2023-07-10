@@ -33,7 +33,7 @@ We can infer from the sysmon logs that there were multiple DNS queries from chro
 
 Further inspection shows that WINWORD.EXE was used to open the malicious document.
 
-<figure><img src=".gitbook/assets/image (26) (1).png" alt=""><figcaption><p>With ProcessID 496</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (26) (1) (1).png" alt=""><figcaption><p>With ProcessID 496</p></figcaption></figure>
 
 We can also see a suspicious entry from the queries resolved to a certain phishteam.xyz&#x20;
 
@@ -99,7 +99,7 @@ Following the sequence of commands, we see that the attacker indexed the victim 
 
 <figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption><p>That's a lot of open ports!</p></figcaption></figure>
 
-<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Identified by our trusty friend, Virustotal, as related to &#x3C;chisel.exe></p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>Identified by our trusty friend, Virustotal, as related to &#x3C;chisel.exe></p></figcaption></figure>
 
 ## Privilege Escalation \<Exploiting Privileges>
 
@@ -141,7 +141,7 @@ Combining the two binaries, \<spf.exe> and \<final.exe>, the attacker managed to
 
 Finally, the threat actor added 2 users, "shion" and "shuna" to the local administrator's group and regular users group, respectively.
 
-<figure><img src=".gitbook/assets/image (20) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (20) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 And as the finishing blow, the actor leveraged the Service Control Manager Configuration Tool to establish persistent administrative access by auto-running \<final.exe> everytime the machine is booted.
 
