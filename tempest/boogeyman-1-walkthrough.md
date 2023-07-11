@@ -2,7 +2,7 @@
 description: https://tryhackme.com/room/boogeyman1
 ---
 
-# Boogeyman Walkthrough
+# Boogeyman 1 Walkthrough
 
 ## Challenge Scenario
 
@@ -89,7 +89,7 @@ A deeper analysis of this powershell script tells the following:
 * If the $c variable doesn't return the value 'None', the script will proceed to execute the content (iex) stored in the $c variable, while also declaring an error variable $e.
 * The output of the command executed by the $c variable is outputted into a string and put into the $r variable, which is then sent to http://cdn.bpakcaging.xyz:8080/27fe2489, concatenated with an error code (if applicable), and encoded as UTF-8 data.
 
-Put simply, whatever the contents of "/b86459b" will be run (GET) in the victim machine, and its output will be sent (POST) to "27fe2489".
+Put simply, whatever the contents of "/b86459b" will be run (GET) in the victim machine, and its output will be sent (POST) to "/27fe2489".
 
 <figure><img src=".gitbook/assets/image (9).png" alt=""><figcaption><p>That's a lot of gets and posts!</p></figcaption></figure>
 
